@@ -1,0 +1,10 @@
+.card-container {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.card:hover {
+background-color: lightgray;
+}
