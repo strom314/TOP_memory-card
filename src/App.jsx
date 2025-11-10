@@ -2,36 +2,36 @@ import { useState, useEffect } from "react";
 import { Card } from "./components/Card";
 import "./app.css";
 
+const cardImages = [
+  "cei-rigotti.webp",
+  "lewisGun.webp",
+  "m1903marksman.webp",
+  "m1918 factory.webp",
+  "model10A.webp",
+  "mondragon.webp",
+  "mp18.webp",
+  "selbstlader.webp",
+];
+
+const cardNames = [
+  "Cei-rigotti",
+  "Lewis Gun",
+  "M1903 Marksman",
+  "M1918 Factory",
+  "Model 10A",
+  "Mondragon",
+  "MP18",
+  "Selbstlader",
+];
+
+const cards = cardImages.map((img, idx) => ({
+  clicked: false,
+  id: idx,
+  img: `/img/${img}`,
+  name: cardNames[idx],
+}));
+
 function App() {
-  const cardImages = [
-    "cei-rigotti.webp",
-    "lewisGun.webp",
-    "m1903marksman.webp",
-    "m1918 factory.webp",
-    "model10A.webp",
-    "mondragon.webp",
-    "mp18.webp",
-    "selbstlader.webp",
-  ];
-
-  const cardNames = [
-    "Cei-rigotti",
-    "Lewis Gun",
-    "M1903 Marksman",
-    "M1918 Factory",
-    "Model 10A",
-    "Mondragon",
-    "MP18",
-    "Selbstlader",
-  ];
-
-  const cards = cardImages.map((img, idx) => ({
-    clicked: false,
-    id: idx,
-    img: `public/img/${img}`,
-    name: cardNames[idx],
-  }));
-
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
 
@@ -43,29 +43,35 @@ function App() {
       card.clicked = true;
     }
 
-    setIds(shuffle(ids));
+    // shuffle using a copy so we don't mutate state directly
+    setIds((prev) => shuffle([...prev]));
   }
 
   const [ids, setIds] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
 
+  // const [displayedCards, setDisplayedCards] = useState()
+
   function displayCards() {
-    const cardsToDisplay = ids.map(id => cards.find(card => card.id === id));
-    
+    const cardsToDisplay = ids.map((id) =>
+      cards.find((card) => card.id === id)
+    );
+
     return cardsToDisplay.map((card) => {
-          return (
-            <Card
-              key={card.id}
-              name={card.name}
-              img={card.img}
-              id={card.id}
-              handleClick={handleClick}
-            ></Card>
-          );
-        })
+      return (
+        <Card
+          key={card.id}
+          name={card.name}
+          img={card.img}
+          id={card.id}
+          handleClick={handleClick}
+        ></Card>
+      );
+    });
   }
 
   useEffect(() => {
-    displayCards();
+    // initialize (shuffle) the ids on first mount so cards render in a random order
+    setIds((prev) => shuffle([...prev]));
   }, []);
 
   return (
@@ -73,16 +79,15 @@ function App() {
       <h1>card game</h1>
       <p>score</p>
       <p>high score</p>
-      <div className="card-container">
-        {displayCards()}
-      </div>
+      <div className="card-container">{displayCards()}</div>
     </>
   );
 }
 
 function shuffle(array) {
   let currentIndex = array.length;
-  let newArray = array;
+  // operate on a copy to avoid mutating caller's array
+  let newArray = array.slice();
   // While there remain elements to shuffle...
   while (currentIndex != 0) {
     // Pick a remaining element...
