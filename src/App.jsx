@@ -83,10 +83,16 @@ function App() {
 
   return (
     <>
-      <h1>card game</h1>
-      <p>score: {score}</p>
-      <p>high score: {highScore}</p>
-      <div className="card-container">{displayCards()}</div>
+      <div className="header">
+        <h1>WW1 memory cards game</h1>
+        <div className="score">
+          <p className="score-text">score: {score}</p>
+          <p className="score-text">high score: {highScore}</p>
+        </div>
+      </div>
+      <div className="card-container-container">
+        <div className="card-container">{displayCards()}</div>
+      </div>
     </>
   );
 }

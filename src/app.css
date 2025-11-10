@@ -1,10 +1,64 @@
+body {
+  margin: 0;
+  background-image: url(img/bf1-wallpaper.jpg);
+  background-color: rgba(0, 0, 0, 0.52);
+  background-size: cover;
+  backdrop-filter: blur(2px);
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1{
+  font-size: 3rem;
+}
+.score {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.319);
+  border-radius: 20px;
+  padding: 0px 20px;
+}
+.score-text{
+  font-size: 1.5rem;
+  text-shadow: 0px 0px 15px black;
+}
+.card-container-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
 .card-container {
+  grid-column: 2 / 6;
+
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  justify-items: center;
 }
-
+.card {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s;
+  
+}
 .card:hover {
-background-color: lightgray;
+  scale: 1.1;
+}
+.card:active{
+  scale: 1;
+}
+img {
+  width: 100%;
+  height: auto;
+filter: drop-shadow(5px 5px 8px rgba(0, 0, 0, 0.532));
+  flex: 0;
+}
+p{
+  color: white;
+  font-size: 1.2rem;
 }
