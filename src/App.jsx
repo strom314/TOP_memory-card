@@ -34,22 +34,30 @@ const cards = cardImages.map((img, idx) => ({
 function App() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const [ids, setIds] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
 
   function handleClick(id) {
     const card = cards.find((card) => card.id === id);
     if (card.clicked) {
-      // gameOver();
+      gameOver();
     } else {
       card.clicked = true;
+      setScore(score + 1);
+    }
+
+    if (score > highScore) {
+      setHighScore(score);
     }
 
     // shuffle using a copy so we don't mutate state directly
     setIds((prev) => shuffle([...prev]));
   }
 
-  const [ids, setIds] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
-
-  // const [displayedCards, setDisplayedCards] = useState()
+  function gameOver() {
+    setScore(0);
+    cards.map((card) => (card.clicked = false));
+    setIds((prev) => shuffle([...prev]));
+  }
 
   function displayCards() {
     const cardsToDisplay = ids.map((id) =>
@@ -70,15 +78,14 @@ function App() {
   }
 
   useEffect(() => {
-    // initialize (shuffle) the ids on first mount so cards render in a random order
     setIds((prev) => shuffle([...prev]));
   }, []);
 
   return (
     <>
       <h1>card game</h1>
-      <p>score</p>
-      <p>high score</p>
+      <p>score: {score}</p>
+      <p>high score: {highScore}</p>
       <div className="card-container">{displayCards()}</div>
     </>
   );
